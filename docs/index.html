@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta name="format-detection" content="telephone=no">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>Roman Numerals Exchange</title>
+	<script type="text/javascript" charset="utf-8">
+	
+// ローマ数字をアラビア数字へ(複数)
+function romanNums(str) {
+  var RE_01_09="(ix|iv|v?i{1,4}|v)?";
+  var RE_10_99="(xc|xl|l?x{1,4}|l)?"+RE_01_09;
+  var RE_100_999="(cm|cd|d?c{1,4}|d)?"+RE_10_99;
+  var RE_1000_9999="(m{1,9})?"+RE_100_999;
+  
+  var tmpRE=new RegExp(RE_1000_9999, "ig");
+  var tmpRE2=new RegExp("^"+RE_1000_9999+"$", "i");
+  
+  var map={
+    "mmmmmmmmm": 9000, 
+    "mmmmmmmm": 8000, 
+    "mmmmmmm": 7000, 
+    "mmmmmm": 6000, 
+    "mmmmm": 5000, 
+    "mmmm": 4000, 
+    "mmm": 3000, 
+    "mm": 2000, 
+    "m": 1000, 
+    "cm": 900, 
+    "dcccc": 900, 
+    "dccc": 800, 
+    "dcc": 700, 
+    "dc": 600, 
+    "d": 500, 
+    "cd": 400, 
+    "cccc": 400, 
+    "ccc": 300, 
+    "cc": 200, 
+    "c": 100, 
+    "xc": 90, 
+    "lxxxx": 90, 
+    "lxxx": 80, 
+    "lxx": 70, 
+    "lx": 60, 
+    "l": 50, 
+    "xl": 40, 
+    "xxxx": 40, 
+    "xxx": 30, 
+    "xx": 20, 
+    "x": 10, 
+    "ix": 9, 
+    "viiii": 9, 
+    "viii": 8, 
+    "vii": 7, 
+    "vi": 6, 
+    "v": 5, 
+    "iv": 4, 
+    "iiii": 4, 
+    "iii": 3, 
+    "ii": 2, 
+    "i": 1
+  }
+  
+  var tmpL=str.match(tmpRE);
+  
+  var result=[];
+  for (var i in tmpL) {
+    if (!tmpL[i]) continue; // 空の配列
+    var myArray=tmpRE2.exec(tmpL[i]);
+    result.push(myArray);
+  }
+  
+  for (var i in result) {
+    var mySum=0;
+    for (var j in result[i]) {
+      if (j>=1 && j<=4 && result[i][j]) {
+        mySum+=map[result[i][j].toLowerCase()];
+      }
+    }
+    result[i]=[result[i][0], mySum];
+  }
+  // [ ローマ, アラビア ] のリストを返す
+  return result;
+}
+
+
+// -------------------------------------------------------
+
+function main(str) {
+      
+  var result=[];
+  var result1=[];
+  var result2=[];
+  var targetElm=document.getElementById('resultString');
+	var tmp=romanNums(str);
+	
+  for (var j in tmp) {
+    if (tmp[j][0]) {
+      result.push(tmp[j][0]+": "+tmp[j][1]);
+      result1.push(tmp[j][0]);
+      result2.push(tmp[j][1]);
+    }
+  }
+  
+  targetElm.value=result.join("\n");
+  targetElm.value+="\n";
+  targetElm.value+="\nCSV";
+  targetElm.value+="\nroman,"+result1.join(",");
+  targetElm.value+="\narabic,"+result2.join(",");
+  targetElm.value+="\n";
+  targetElm.value+="\nTSV";
+  targetElm.value+="\nroman\t"+result1.join("\t");
+  targetElm.value+="\narabic\t"+result2.join("\t");
+  targetElm.value+="\n";
+  targetElm.value+="\njoin: "+result2.join("");
+
+
+}
+
+  
+	</script>
+</head>
+<body>
+	<h1>Roman Numerals Exchange</h1>
+	<div>
+	  <h3>enter Roman Numerals</h3>
+	  <input type="text" id="inputBin" value="" style="width: 90%" onchange="main(this.value)" onautofocus>
+	  <input type="button" value="exchange" onClick="main(document.getElementById('inputBin').value)"><br>
+    <span style="font-sze: 50%"> </span>
+
+	</div>
+	<div>
+    <h3>result strings</h3>
+    <textarea id="resultString" style="width: 90%" rows=30 style="font-family: monospace; font-size: 100%" readonly></textarea><br>
+    <span style="font-size: 70%">
+    </span>
+	</div>
+</body>
+</html>
