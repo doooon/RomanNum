@@ -107,15 +107,19 @@ function main(str) {
   
   targetElm.value=result.join("\n");
   targetElm.value+="\n";
-  targetElm.value+="\nCSV";
+  targetElm.value+="\n*** Result ***";
+  targetElm.value+="\n"+result2.join(" ");
+  targetElm.value+="\n";
+  targetElm.value+="\n*** Join ***";
+  targetElm.value+="\n"+result2.join("");
+  targetElm.value+="\n";
+  targetElm.value+="\n*** Comma-Separated ***";
   targetElm.value+="\nroman,"+result1.join(",");
   targetElm.value+="\narabic,"+result2.join(",");
   targetElm.value+="\n";
-  targetElm.value+="\nTSV";
+  targetElm.value+="\n*** Tab-Separated ***";
   targetElm.value+="\nroman\t"+result1.join("\t");
   targetElm.value+="\narabic\t"+result2.join("\t");
-  targetElm.value+="\n";
-  targetElm.value+="\njoin: "+result2.join("");
 
 
 }
